@@ -9,41 +9,42 @@ use Rgasch\TwitterClient\Resources\Base\BaseResource;
 /**
  *
  */
-class Bookmarks extends BaseResource
+class UserBlocks extends BaseResource
 {
     /**
-     * See https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks
+     * See https://developer.twitter.com/en/docs/twitter-api/users/blocks/api-reference/get-users-blocking
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(int $userID, array $options=[]): \stdClass
     {
-        $uri = "users/{$userID}/bookmarks" . $this->serializeParameters($options);
+        $uri = "users/{$userID}/blocking" . $this->serializeParameters($options);
 
         return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
     }
 
     /**
-     * See https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/post-users-id-bookmarks
+     * See https://developer.twitter.com/en/docs/twitter-api/users/blocks/api-reference/post-users-user_id-blocking
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(int $userID, array $postData): \stdClass
+    public function create(int $userID, int $targetUserID): \stdClass
     {
-        $uri = "users/{$userID}/bookmarks";
+        $uri      = "users/{$userID}/blocking";
+        $postData = [ 'target_user_id' => $targetUserID ];
 
         return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=>$postData ])->getBody());
     }
 
     /**
      *
-     * See https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/delete-users-id-bookmarks-tweet_id
+     * See https://developer.twitter.com/en/docs/twitter-api/users/blocks/api-reference/delete-users-user_id-blocking
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(int $userID, int $tweetID): \stdClass
+    public function delete(int $userID, int $targetUserID): \stdClass
     {
-        $uri = "users/{$userID}/bookmarks/{$tweetID}";
+        $uri = "users/{$userID}/blocking/{$targetUserID}";
 
         return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
     }

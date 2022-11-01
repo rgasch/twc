@@ -14,7 +14,18 @@ use Rgasch\TwitterClient\Resources\Likes;
 use Rgasch\TwitterClient\Resources\Tweets;
 
 /**
- * See https://developer.twitter.com/en/docs/api-reference-index
+ * See https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
+ *
+ * A successful request returns a structure like this:
+ * {
+ *   "token_type": "bearer"
+ *   "expires_in": 7200
+ *   "access_token": "elwieurghdsjkfGSDGiugkfbiukfsafkjlJWMEpCSThWTsdfpohsdfkbwerIOGERKJSKJHisudfgsdf6MToxOmF0OjE"
+ *   "scope": "mute.write tweet.moderate.write block.read follows.read offline.access list.write bookmark.read list.read tweet.write space.read block.write like.write like.read users.read tweet.read bookmark.write mute.read follows.write"
+ *   "refresh_token": "ZDODFSiuhfbmnqwxpkamsdfasfhbvkajsdYAKPOIEWQBHJBxNXNBVk1VWkN0OjE2NjczMzU5NDcxNzE6MToxOnJ0OjE"
+ * }
+ *
+ * It is the calling program's request to ensure that credentials are updated whereever they're stored.
  */
 class TokenRefreshClient
 {
