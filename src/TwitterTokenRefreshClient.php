@@ -16,19 +16,19 @@ use Rgasch\TwitterClient\Resources\Tweets;
 /**
  * See https://developer.twitter.com/en/docs/api-reference-index
  */
-class TwitterRefreshTokenClient
+class TwitterTokenRefreshClient
 {
     public readonly string $baseUri;
     public readonly bool $debug;
 
     public function __construct(
-        public readonly string $bearerToken,
+        public readonly string $clientID,
         public readonly string $refreshToken,
         public readonly string $updateDatabaseClass,
         bool                   $debug = false)
     {
-        if (!$bearerToken) {
-            throw new \InvalidArgumentException('Invalid [bearerToken] received');
+        if (!$clientID) {
+            throw new \InvalidArgumentException('Invalid [clientID] received');
         }
         if (!$refreshToken) {
             throw new \InvalidArgumentException('Invalid [refreshToken] received');
@@ -57,8 +57,8 @@ class TwitterRefreshTokenClient
             'debug'    => $this->debug,
             'base_uri' => $this->baseUri,
             'headers'  => [
-                'Authorization' => "Basic {$this->bearerToken}",
-                'Accept'        => 'application/json',
+                'ContentType' => "application/x-www-form-urlencoded",
+                'Accept'      => 'application/json',
             ]
         ];
 
@@ -68,6 +68,7 @@ class TwitterRefreshTokenClient
             'token',
             [
                 'form_params' => [
+                    'client_id'    => $this->clientID,
                     'refreshToken' => $this->refreshToken,
                     'grant_type'   => 'refresh_token',
                 ]
