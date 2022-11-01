@@ -16,22 +16,22 @@ use Rgasch\TwitterClient\Resources\Tweets;
 /**
  * See https://developer.twitter.com/en/docs/api-reference-index
  */
-class TwitterTokenRefreshClient
+class TokenRefreshClient
 {
     public readonly string $baseUri;
     public readonly bool $debug;
 
     public function __construct(
         public readonly string $clientID,
-        public readonly string $bearerToken,
+        public readonly string $clientSecret,
         public readonly string $refreshToken,
         bool                   $debug = false)
     {
         if (!trim($clientID)) {
             throw new \InvalidArgumentException('Invalid [clientID] received');
         }
-        if (!trim($bearerToken)) {
-            throw new \InvalidArgumentException('Invalid [bearerToken] received');
+        if (!trim($clientSecret)) {
+            throw new \InvalidArgumentException('Invalid [clientSecret] received');
         }
         if (!trim($refreshToken)) {
             throw new \InvalidArgumentException('Invalid [refreshToken] received');
@@ -46,13 +46,14 @@ class TwitterTokenRefreshClient
      */
     public function refreshToken(): \stdClass
     {
+        $authToken = base64_encode("{$this->clientID}:{$this->clientSecret}");
         $guzzleConfig = [
             'debug'    => $this->debug,
             'base_uri' => $this->baseUri,
             'headers'  => [
-                'ContentType'   => "application/x-www-form-urlencoded",
                 'Accept'        => 'application/json',
-                'Authorization' => "Bearer {$this->bearerToken}",
+                'Authorization' => "Basic {$authToken}",
+                'ContentType'   => "application/x-www-form-urlencoded",
             ]
         ];
 
@@ -62,9 +63,9 @@ class TwitterTokenRefreshClient
             'token',
             [
                 'form_params' => [
-                    'client_id'    => $this->clientID,
-                    'grant_type'   => 'refresh_token',
-                    'refreshToken' => $this->refreshToken,
+                    'client_id'     => $this->clientID,
+                    'grant_type'    => 'refresh_token',
+                    'refresh_token' => $this->refreshToken,
                 ]
             ]
         );

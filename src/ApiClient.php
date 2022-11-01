@@ -11,7 +11,7 @@ use Rgasch\TwitterClient\Resources\Tweets;
 /**
  * See https://developer.twitter.com/en/docs/api-reference-index
  */
-class TwitterClient
+class ApiClient
 {
     public readonly Guzzle $apiClient;
     public readonly string $baseUri;
