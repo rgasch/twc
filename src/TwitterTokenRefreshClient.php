@@ -24,7 +24,6 @@ class TwitterTokenRefreshClient
     public function __construct(
         public readonly string $clientID,
         public readonly string $refreshToken,
-        public readonly string $updateDatabaseClass,
         bool                   $debug = false)
     {
         if (!$clientID) {
@@ -32,16 +31,6 @@ class TwitterTokenRefreshClient
         }
         if (!$refreshToken) {
             throw new \InvalidArgumentException('Invalid [refreshToken] received');
-        }
-        if (!$this->updateDatabaseClass) {
-            throw new \InvalidArgumentException('Invalid [updateDatabaseClass] received');
-        }
-        if (!class_exists($this->updateDatabaseClass)) {
-            throw new \InvalidArgumentException('Unable to load updateDatabaseClass [$updateDatabaseClass] received');
-        }
-        $reflectionClass = new \ReflectionClass($this->updateDatabaseClass);
-        if (!$reflectionClass->implementsInterface(TokenDatabaseUpdateInterface::class)) {
-            throw new \InvalidArgumentException('$this->updateDatabaseClass does not implement the [TokenDatabaseUpdateInterface]');
         }
 
         $this->baseUri = 'https://api.twitter.com/2/oauth2/';
