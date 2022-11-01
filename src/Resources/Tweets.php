@@ -21,6 +21,6 @@ class Tweets extends BaseResource
         $uri = 'tweets' . $this->serializeParameters($parameters);
         dump ($uri);
 
-        return JsonHelper::jsonToStdClass($this->apiClient->get($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
     }
 }

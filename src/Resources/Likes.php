@@ -18,7 +18,7 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/liked_tweets" . $this->serializeParameters($parameters);
 
-        return JsonHelper::jsonToStdClass($this->apiClient->get($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
     }
 
     /**
@@ -28,7 +28,7 @@ class Likes extends BaseResource
     {
         $uri = "tweets/{$tweetID}/liking_users" . $this->serializeParameters($parameters);
 
-        return JsonHelper::jsonToStdClass($this->apiClient->get($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
     }
 
     /**
@@ -38,7 +38,7 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/likes";
 
-        return JsonHelper::jsonToStdClass($this->apiClient->post($uri, [ 'json'=> [ 'tweet_id'=>$tweetID ] ])->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=> [ 'tweet_id'=>$tweetID ] ])->getBody());
     }
 
     /**
@@ -48,6 +48,6 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/likes/{$tweetID}";
 
-        return JsonHelper::jsonToStdClass($this->apiClient->delete($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
     }
 }

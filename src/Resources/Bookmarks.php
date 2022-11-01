@@ -18,7 +18,7 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks" . $this->serializeParameters($parameters);
 
-        return JsonHelper::jsonToStdClass($this->apiClient->get($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
     }
 
     /**
@@ -28,7 +28,7 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks";
 
-        return JsonHelper::jsonToStdClass($this->apiClient->post($uri, [ 'json'=>$postData ])->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=>$postData ])->getBody());
     }
 
     /**
@@ -38,6 +38,6 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks/{$tweetID}";
 
-        return JsonHelper::jsonToStdClass($this->apiClient->delete($uri)->getBody());
+        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
     }
 }
