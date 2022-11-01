@@ -23,13 +23,17 @@ class TwitterTokenRefreshClient
 
     public function __construct(
         public readonly string $clientID,
+        public readonly string $bearerToken,
         public readonly string $refreshToken,
         bool                   $debug = false)
     {
-        if (!$clientID) {
+        if (!trim($clientID)) {
             throw new \InvalidArgumentException('Invalid [clientID] received');
         }
-        if (!$refreshToken) {
+        if (!trim($bearerToken)) {
+            throw new \InvalidArgumentException('Invalid [bearerToken] received');
+        }
+        if (!trim($refreshToken)) {
             throw new \InvalidArgumentException('Invalid [refreshToken] received');
         }
 
@@ -46,8 +50,9 @@ class TwitterTokenRefreshClient
             'debug'    => $this->debug,
             'base_uri' => $this->baseUri,
             'headers'  => [
-                'ContentType' => "application/x-www-form-urlencoded",
-                'Accept'      => 'application/json',
+                'ContentType'   => "application/x-www-form-urlencoded",
+                'Accept'        => 'application/json',
+                'Authorization' => "Bearer {$this->bearerToken}",
             ]
         ];
 
@@ -58,8 +63,8 @@ class TwitterTokenRefreshClient
             [
                 'form_params' => [
                     'client_id'    => $this->clientID,
-                    'refreshToken' => $this->refreshToken,
                     'grant_type'   => 'refresh_token',
+                    'refreshToken' => $this->refreshToken,
                 ]
             ]
         );

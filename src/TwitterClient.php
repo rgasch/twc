@@ -23,7 +23,7 @@ class TwitterClient
 
     public function __construct(string $bearerToken, bool $debug = false)
     {
-        if (!$bearerToken) {
+        if (!trim($bearerToken)) {
             throw new \InvalidArgumentException('Invalid [bearerToken] received');
         }
 
