@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,6 +20,6 @@ class QuoteTweets extends BaseResource
     {
         $uri = "tweets/{$tweetID}/quoteTweets" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 }

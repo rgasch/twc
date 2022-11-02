@@ -7,7 +7,8 @@ use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Enums\ResponseFormatEnum;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Interfaces\TokenDatabaseUpdateInterface;
 use Rgasch\TwitterClient\Resources\Bookmarks;
 use Rgasch\TwitterClient\Resources\Likes;
@@ -36,6 +37,7 @@ class TokenRefreshClient
         public readonly string $clientID,
         public readonly string $clientSecret,
         public readonly string $refreshToken,
+        public readonly ResponseFormatEnum $responseFormat=ResponseFormatEnum::JSON,
         bool                   $debug = false)
     {
         if (!trim($clientID)) {
@@ -82,7 +84,7 @@ class TokenRefreshClient
         );
 
         $statusCode = $response->getStatusCode();
-        $contents   = JsonHelper::jsonToStdClass((string)$response->getBody());
+        $contents   = ResponseHelper::format((string)$response->getBody(), $this->responseFormat);
 
         dump($statusCode);
         dump($contents);

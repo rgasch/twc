@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -27,7 +27,7 @@ class Tweets extends BaseResource
         }
         $uri .= $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -41,7 +41,7 @@ class Tweets extends BaseResource
     {
         $uri = 'tweets/counts/recent' . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -55,7 +55,7 @@ class Tweets extends BaseResource
     {
         $uri = 'tweets/search/recent' . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -68,7 +68,7 @@ class Tweets extends BaseResource
         $uri             = "tweets";
         $options['text'] = $text;
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, ['json' => $options])->getBody());
+        return ResponseHelper::format((string)$this->apiClient->post($uri, ['json' => $options])->getBody(), $this->responseFormat);
     }
 
     /**
@@ -80,6 +80,6 @@ class Tweets extends BaseResource
     {
         $uri = "tweets/{$tweetID}";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->delete($uri)->getBody(), $this->responseFormat);
     }
 }

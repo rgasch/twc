@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,7 +20,7 @@ class Timelines extends BaseResource
     {
         $uri = "users/{$userID}/mentions" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -32,7 +32,7 @@ class Timelines extends BaseResource
     {
         $uri = "users/{$userID}/timelines/reverse_chronological" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -44,6 +44,6 @@ class Timelines extends BaseResource
     {
         $uri = "users/{$userID}/tweets" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 }

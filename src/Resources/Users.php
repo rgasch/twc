@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,7 +20,7 @@ class Users extends BaseResource
     {
         $uri = "users/{$userID}" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -33,7 +33,7 @@ class Users extends BaseResource
         $options['ids'] = implode(',', $userIDs);
         $uri            = "users" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -45,7 +45,7 @@ class Users extends BaseResource
     {
         $uri = "users/by/username/{$username}" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -58,7 +58,7 @@ class Users extends BaseResource
         $options['usernames'] = implode(',', $usernames);
         $uri                  = "users/by" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -70,6 +70,6 @@ class Users extends BaseResource
     {
         $uri = "users/me" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 }

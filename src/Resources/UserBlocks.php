@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,7 +20,7 @@ class UserBlocks extends BaseResource
     {
         $uri = "users/{$userID}/blocking" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -33,7 +33,7 @@ class UserBlocks extends BaseResource
         $uri      = "users/{$userID}/blocking";
         $postData = [ 'target_user_id' => $targetUserID ];
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=>$postData ])->getBody());
+        return ResponseHelper::format((string)$this->apiClient->post($uri, ['json' =>$postData ])->getBody(), $this->responseFormat);
     }
 
     /**
@@ -46,6 +46,6 @@ class UserBlocks extends BaseResource
     {
         $uri = "users/{$userID}/blocking/{$targetUserID}";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->delete($uri)->getBody(), $this->responseFormat);
     }
 }

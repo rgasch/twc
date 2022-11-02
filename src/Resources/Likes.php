@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,7 +20,7 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/liked_tweets" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -32,7 +32,7 @@ class Likes extends BaseResource
     {
         $uri = "tweets/{$tweetID}/liking_users" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -44,7 +44,7 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/likes";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=> [ 'tweet_id'=>$tweetID ] ])->getBody());
+        return ResponseHelper::format((string)$this->apiClient->post($uri, ['json' => ['tweet_id' =>$tweetID ] ])->getBody(), $this->responseFormat);
     }
 
     /**
@@ -56,6 +56,6 @@ class Likes extends BaseResource
     {
         $uri = "users/{$userID}/likes/{$tweetID}";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->delete($uri)->getBody(), $this->responseFormat);
     }
 }

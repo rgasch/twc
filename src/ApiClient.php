@@ -5,6 +5,7 @@ namespace Rgasch\TwitterClient;
 
 use GuzzleHttp\Client as Guzzle;
 use Ramsey\Uuid\Type\Time;
+use Rgasch\TwitterClient\Enums\ResponseFormatEnum;
 use Rgasch\TwitterClient\Resources\Bookmarks;
 use Rgasch\TwitterClient\Resources\Likes;
 use Rgasch\TwitterClient\Resources\QuoteTweets;
@@ -36,7 +37,7 @@ class ApiClient
     public readonly UserMutes $userMutes;
     public readonly Users $users;
 
-    public function __construct(string $bearerToken, bool $debug = false)
+    public function __construct(string $bearerToken, ResponseFormatEnum $responseFormat=ResponseFormatEnum::JSON, bool $debug = false)
     {
         if (!trim($bearerToken)) {
             throw new \InvalidArgumentException('Invalid [bearerToken] received');
@@ -44,6 +45,7 @@ class ApiClient
 
         $this->baseUri = 'https://api.twitter.com/2/';
         $this->debug   = $debug;
+
         $guzzleConfig  = [
             'debug'    => $debug,
             'base_uri' => $this->baseUri,
@@ -52,18 +54,18 @@ class ApiClient
                 'Accept'        => 'application/json',
             ]
         ];
-
         $this->apiClient   = new Guzzle($guzzleConfig);
-        $this->bookmarks   = new Bookmarks($this->apiClient);
-        $this->likes       = new Likes($this->apiClient);
-        $this->quoteTweets = new QuoteTweets($this->apiClient);
-        $this->retweets    = new Retweets($this->apiClient);
-        $this->timelines   = new Timelines($this->apiClient);
-        $this->tweets      = new Tweets($this->apiClient);
-        $this->userBlocks  = new UserBlocks($this->apiClient);
-        $this->userFollows = new UserFollows($this->apiClient);
-        $this->userMutes   = new UserMutes($this->apiClient);
-        $this->users       = new Users($this->apiClient);
+
+        $this->bookmarks   = new Bookmarks($this->apiClient, $responseFormat);
+        $this->likes       = new Likes($this->apiClient, $responseFormat);
+        $this->quoteTweets = new QuoteTweets($this->apiClient, $responseFormat);
+        $this->retweets    = new Retweets($this->apiClient, $responseFormat);
+        $this->timelines   = new Timelines($this->apiClient, $responseFormat);
+        $this->tweets      = new Tweets($this->apiClient, $responseFormat);
+        $this->userBlocks  = new UserBlocks($this->apiClient, $responseFormat);
+        $this->userFollows = new UserFollows($this->apiClient, $responseFormat);
+        $this->userMutes   = new UserMutes($this->apiClient, $responseFormat);
+        $this->users       = new Users($this->apiClient, $responseFormat);
     }
 }
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Rgasch\TwitterClient\Resources;
 
-use Rgasch\TwitterClient\Helpers\JsonHelper;
+use Rgasch\TwitterClient\Helpers\ResponseHelper;
 use Rgasch\TwitterClient\Resources\Base\BaseResource;
 
 /**
@@ -20,7 +20,7 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks" . $this->serializeParameters($options);
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->get($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->get($uri)->getBody(), $this->responseFormat);
     }
 
     /**
@@ -32,7 +32,7 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->post($uri, [ 'json'=>$postData ])->getBody());
+        return ResponseHelper::format((string)$this->apiClient->post($uri, ['json' =>$postData ])->getBody(), $this->responseFormat);
     }
 
     /**
@@ -45,6 +45,6 @@ class Bookmarks extends BaseResource
     {
         $uri = "users/{$userID}/bookmarks/{$tweetID}";
 
-        return JsonHelper::jsonToStdClass((string)$this->apiClient->delete($uri)->getBody());
+        return ResponseHelper::format((string)$this->apiClient->delete($uri)->getBody(), $this->responseFormat);
     }
 }
